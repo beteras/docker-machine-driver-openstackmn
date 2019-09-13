@@ -56,155 +56,155 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 	return []mcnflag.Flag{
 		mcnflag.StringFlag{
 			EnvVar: "OS_AUTH_URL",
-			Name:   "openstack-auth-url",
+			Name:   "openstackmn-auth-url",
 			Usage:  "OpenStack authentication URL",
 			Value:  "",
 		},
 		mcnflag.BoolFlag{
 			EnvVar: "OS_INSECURE",
-			Name:   "openstack-insecure",
+			Name:   "openstackmn-insecure",
 			Usage:  "Disable TLS credential checking.",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "OS_DOMAIN_ID",
-			Name:   "openstack-domain-id",
+			Name:   "openstackmn-domain-id",
 			Usage:  "OpenStack domain ID (identity v3 only)",
 			Value:  "",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "OS_DOMAIN_NAME",
-			Name:   "openstack-domain-name",
+			Name:   "openstackmn-domain-name",
 			Usage:  "OpenStack domain name (identity v3 only)",
 			Value:  "",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "OS_USERNAME",
-			Name:   "openstack-username",
+			Name:   "openstackmn-username",
 			Usage:  "OpenStack username",
 			Value:  "",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "OS_PASSWORD",
-			Name:   "openstack-password",
+			Name:   "openstackmn-password",
 			Usage:  "OpenStack password",
 			Value:  "",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "OS_TENANT_NAME",
-			Name:   "openstack-tenant-name",
+			Name:   "openstackmn-tenant-name",
 			Usage:  "OpenStack tenant name",
 			Value:  "",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "OS_TENANT_ID",
-			Name:   "openstack-tenant-id",
+			Name:   "openstackmn-tenant-id",
 			Usage:  "OpenStack tenant id",
 			Value:  "",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "OS_REGION_NAME",
-			Name:   "openstack-region",
+			Name:   "openstackmn-region",
 			Usage:  "OpenStack region name",
 			Value:  "",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "OS_AVAILABILITY_ZONE",
-			Name:   "openstack-availability-zone",
+			Name:   "openstackmn-availability-zone",
 			Usage:  "OpenStack availability zone",
 			Value:  "",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "OS_ENDPOINT_TYPE",
-			Name:   "openstack-endpoint-type",
+			Name:   "openstackmn-endpoint-type",
 			Usage:  "OpenStack endpoint type (adminURL, internalURL or publicURL)",
 			Value:  "",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "OS_FLAVOR_ID",
-			Name:   "openstack-flavor-id",
+			Name:   "openstackmn-flavor-id",
 			Usage:  "OpenStack flavor id to use for the instance",
 			Value:  "",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "OS_FLAVOR_NAME",
-			Name:   "openstack-flavor-name",
+			Name:   "openstackmn-flavor-name",
 			Usage:  "OpenStack flavor name to use for the instance",
 			Value:  "",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "OS_IMAGE_ID",
-			Name:   "openstack-image-id",
+			Name:   "openstackmn-image-id",
 			Usage:  "OpenStack image id to use for the instance",
 			Value:  "",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "OS_IMAGE_NAME",
-			Name:   "openstack-image-name",
+			Name:   "openstackmn-image-name",
 			Usage:  "OpenStack image name to use for the instance",
 			Value:  "",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "OS_KEYPAIR_NAME",
-			Name:   "openstack-keypair-name",
+			Name:   "openstackmn-keypair-name",
 			Usage:  "OpenStack keypair to use to SSH to the instance",
 			Value:  "",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "OS_PRIVATE_KEY_FILE",
-			Name:   "openstack-private-key-file",
+			Name:   "openstackmn-private-key-file",
 			Usage:  "Private keyfile to use for SSH (absolute path)",
 			Value:  "",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "OS_NETWORK_ID",
-			Name:   "openstack-net-id",
+			Name:   "openstackmn-net-id",
 			Usage:  "OpenStack comma separated networks id the machine will be connected on",
 			Value:  "",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "OS_NETWORK_NAME",
-			Name:   "openstack-net-name",
+			Name:   "openstackmn-net-name",
 			Usage:  "OpenStack comma separated network names the machine will be connected on",
 			Value:  "",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "OS_SECURITY_GROUPS",
-			Name:   "openstack-sec-groups",
+			Name:   "openstackmn-sec-groups",
 			Usage:  "OpenStack comma separated security groups for the machine",
 			Value:  "",
 		},
 		mcnflag.BoolFlag{
 			EnvVar: "OS_NOVA_NETWORK",
-			Name:   "openstack-nova-network",
+			Name:   "openstackmn-nova-network",
 			Usage:  "Use the nova networking services instead of neutron.",
 		},
 		mcnflag.StringFlag{
 			EnvVar: "OS_FLOATINGIP_POOL",
-			Name:   "openstack-floatingip-pool",
+			Name:   "openstackmn-floatingip-pool",
 			Usage:  "OpenStack floating IP pool to get an IP from to assign to the instance (first network only)",
 			Value:  "",
 		},
 		mcnflag.IntFlag{
 			EnvVar: "OS_IP_VERSION",
-			Name:   "openstack-ip-version",
+			Name:   "openstackmn-ip-version",
 			Usage:  "OpenStack version of IP address assigned for the machine",
 			Value:  4,
 		},
 		mcnflag.StringFlag{
 			EnvVar: "OS_SSH_USER",
-			Name:   "openstack-ssh-user",
+			Name:   "openstackmn-ssh-user",
 			Usage:  "OpenStack SSH user",
 			Value:  defaultSSHUser,
 		},
 		mcnflag.IntFlag{
 			EnvVar: "OS_SSH_PORT",
-			Name:   "openstack-ssh-port",
+			Name:   "openstackmn-ssh-port",
 			Usage:  "OpenStack SSH port",
 			Value:  defaultSSHPort,
 		},
 		mcnflag.IntFlag{
 			EnvVar: "OS_ACTIVE_TIMEOUT",
-			Name:   "openstack-active-timeout",
+			Name:   "openstackmn-active-timeout",
 			Usage:  "OpenStack active timeout",
 			Value:  defaultActiveTimeout,
 		},
@@ -238,42 +238,42 @@ func (d *Driver) SetClient(client Client) {
 
 // DriverName returns the name of the driver
 func (d *Driver) DriverName() string {
-	return "openstack"
+	return "openstackmn"
 }
 
 func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) error {
-	d.AuthUrl = flags.String("openstack-auth-url")
-	d.ActiveTimeout = flags.Int("openstack-active-timeout")
-	d.Insecure = flags.Bool("openstack-insecure")
-	d.DomainID = flags.String("openstack-domain-id")
-	d.DomainName = flags.String("openstack-domain-name")
-	d.Username = flags.String("openstack-username")
-	d.Password = flags.String("openstack-password")
-	d.TenantName = flags.String("openstack-tenant-name")
-	d.TenantId = flags.String("openstack-tenant-id")
-	d.Region = flags.String("openstack-region")
-	d.AvailabilityZone = flags.String("openstack-availability-zone")
-	d.EndpointType = flags.String("openstack-endpoint-type")
-	d.FlavorId = flags.String("openstack-flavor-id")
-	d.FlavorName = flags.String("openstack-flavor-name")
-	d.ImageId = flags.String("openstack-image-id")
-	d.ImageName = flags.String("openstack-image-name")
-	if flags.String("openstack-net-id") != "" {
-		d.NetworkIds = strings.Split(flags.String("openstack-net-id"), ",")
+	d.AuthUrl = flags.String("openstackmn-auth-url")
+	d.ActiveTimeout = flags.Int("openstackmn-active-timeout")
+	d.Insecure = flags.Bool("openstackmn-insecure")
+	d.DomainID = flags.String("openstackmn-domain-id")
+	d.DomainName = flags.String("openstackmn-domain-name")
+	d.Username = flags.String("openstackmn-username")
+	d.Password = flags.String("openstackmn-password")
+	d.TenantName = flags.String("openstackmn-tenant-name")
+	d.TenantId = flags.String("openstackmn-tenant-id")
+	d.Region = flags.String("openstackmn-region")
+	d.AvailabilityZone = flags.String("openstackmn-availability-zone")
+	d.EndpointType = flags.String("openstackmn-endpoint-type")
+	d.FlavorId = flags.String("openstackmn-flavor-id")
+	d.FlavorName = flags.String("openstackmn-flavor-name")
+	d.ImageId = flags.String("openstackmn-image-id")
+	d.ImageName = flags.String("openstackmn-image-name")
+	if flags.String("openstackmn-net-id") != "" {
+		d.NetworkIds = strings.Split(flags.String("openstackmn-net-id"), ",")
 	}
-	if flags.String("openstack-net-name") != "" {
-		d.NetworkNames = strings.Split(flags.String("openstack-net-name"), ",")
+	if flags.String("openstackmn-net-name") != "" {
+		d.NetworkNames = strings.Split(flags.String("openstackmn-net-name"), ",")
 	}
-	if flags.String("openstack-sec-groups") != "" {
-		d.SecurityGroups = strings.Split(flags.String("openstack-sec-groups"), ",")
+	if flags.String("openstackmn-sec-groups") != "" {
+		d.SecurityGroups = strings.Split(flags.String("openstackmn-sec-groups"), ",")
 	}
-	d.FloatingIPPool = flags.String("openstack-floatingip-pool")
-	d.IpVersion = flags.Int("openstack-ip-version")
-	d.ComputeNetwork = flags.Bool("openstack-nova-network")
-	d.SSHUser = flags.String("openstack-ssh-user")
-	d.SSHPort = flags.Int("openstack-ssh-port")
-	d.KeyPairName = flags.String("openstack-keypair-name")
-	d.PrivateKeyFile = flags.String("openstack-private-key-file")
+	d.FloatingIPPool = flags.String("openstackmn-floatingip-pool")
+	d.IpVersion = flags.Int("openstackmn-ip-version")
+	d.ComputeNetwork = flags.Bool("openstackmn-nova-network")
+	d.SSHUser = flags.String("openstackmn-ssh-user")
+	d.SSHPort = flags.Int("openstackmn-ssh-port")
+	d.KeyPairName = flags.String("openstackmn-keypair-name")
+	d.PrivateKeyFile = flags.String("openstackmn-private-key-file")
 	d.SetSwarmConfigFromFlags(flags)
 
 	return d.checkConfig()
@@ -436,7 +436,7 @@ const (
 	errorMandatoryOption         string = "%s must be specified using the CLI option %s"
 	errorExclusiveOptions        string = "Either %s or %s must be specified, not both"
 	errorBothOptions             string = "Both %s and %s must be specified"
-	errorMandatoryTenantNameOrID string = "Tenant id or name must be provided either using one of the environment variables OS_TENANT_ID and OS_TENANT_NAME or one of the CLI options --openstack-tenant-id and --openstack-tenant-name"
+	errorMandatoryTenantNameOrID string = "Tenant id or name must be provided either using one of the environment variables OS_TENANT_ID and OS_TENANT_NAME or one of the CLI options --openstackmn-tenant-id and --openstackmn-tenant-name"
 	errorWrongEndpointType       string = "Endpoint type must be 'publicURL', 'adminURL' or 'internalURL'"
 	errorUnknownFlavorName       string = "Unable to find flavor named %s"
 	errorUnknownImageName        string = "Unable to find image named %s"
@@ -446,27 +446,27 @@ const (
 
 func (d *Driver) checkConfig() error {
 	if d.AuthUrl == "" {
-		return fmt.Errorf(errorMandatoryEnvOrOption, "Authentication URL", "OS_AUTH_URL", "--openstack-auth-url")
+		return fmt.Errorf(errorMandatoryEnvOrOption, "Authentication URL", "OS_AUTH_URL", "--openstackmn-auth-url")
 	}
 	if d.Username == "" {
-		return fmt.Errorf(errorMandatoryEnvOrOption, "Username", "OS_USERNAME", "--openstack-username")
+		return fmt.Errorf(errorMandatoryEnvOrOption, "Username", "OS_USERNAME", "--openstackmn-username")
 	}
 	if d.Password == "" {
-		return fmt.Errorf(errorMandatoryEnvOrOption, "Password", "OS_PASSWORD", "--openstack-password")
+		return fmt.Errorf(errorMandatoryEnvOrOption, "Password", "OS_PASSWORD", "--openstackmn-password")
 	}
 	if d.TenantName == "" && d.TenantId == "" {
 		return fmt.Errorf(errorMandatoryTenantNameOrID)
 	}
 
 	if d.FlavorName == "" && d.FlavorId == "" {
-		return fmt.Errorf(errorMandatoryOption, "Flavor name or Flavor id", "--openstack-flavor-name or --openstack-flavor-id")
+		return fmt.Errorf(errorMandatoryOption, "Flavor name or Flavor id", "--openstackmn-flavor-name or --openstackmn-flavor-id")
 	}
 	if d.FlavorName != "" && d.FlavorId != "" {
 		return fmt.Errorf(errorExclusiveOptions, "Flavor name", "Flavor id")
 	}
 
 	if d.ImageName == "" && d.ImageId == "" {
-		return fmt.Errorf(errorMandatoryOption, "Image name or Image id", "--openstack-image-name or --openstack-image-id")
+		return fmt.Errorf(errorMandatoryOption, "Image name or Image id", "--openstackmn-image-name or --openstackmn-image-id")
 	}
 	if d.ImageName != "" && d.ImageId != "" {
 		return fmt.Errorf(errorExclusiveOptions, "Image name", "Image id")
