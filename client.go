@@ -1,8 +1,10 @@
-package openstack
+package openstackmn
 
 import (
 	"crypto/tls"
+	"crypto/x509"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"time"
 
@@ -64,8 +66,11 @@ func (c *GenericClient) CreateInstance(d *Driver) (string, error) {
 		Name:             d.MachineName,
 		FlavorRef:        d.FlavorId,
 		ImageRef:         d.ImageId,
+		UserData:         d.UserData,
 		SecurityGroups:   d.SecurityGroups,
 		AvailabilityZone: d.AvailabilityZone,
+		ConfigDrive:      d.ConfigDrive,
+		Metadata:         d.GetMetadata(),
 	}
 	if len(d.NetworkIds) > 0 {
 		networks := make([]servers.Network, len(d.NetworkIds))
@@ -78,8 +83,8 @@ func (c *GenericClient) CreateInstance(d *Driver) (string, error) {
 	log.Info("Creating machine...")
 
 	server, err := servers.Create(c.Compute, keypairs.CreateOptsExt{
-		serverOpts,
-		d.KeyPairName,
+		CreateOptsBuilder: serverOpts,
+		KeyName:           d.KeyPairName,
 	}).Extract()
 	if err != nil {
 		return "", err
@@ -213,7 +218,7 @@ func (c *GenericClient) GetNetworkIDs(d *Driver) ([]string, error) {
 }
 
 func (c *GenericClient) GetFloatingIPPoolID(d *Driver) (string, error) {
-	return c.GetNetworkID(d, d.FloatingIPPool)
+	return c.GetNetworkID(d, d.FloatingIpPool)
 }
 
 func (c *GenericClient) GetNetworkID(d *Driver, networkName string) (string, error) {
@@ -354,7 +359,7 @@ func (c *GenericClient) AssignFloatingIP(d *Driver, floatingIP *FloatingIP) erro
 func (c *GenericClient) assignNovaFloatingIP(d *Driver, floatingIP *FloatingIP) error {
 	if floatingIP.Ip == "" {
 		f, err := compute_ips.Create(c.Compute, compute_ips.CreateOpts{
-			Pool: d.FloatingIPPool,
+			Pool: d.FloatingIpPool,
 		}).Extract()
 		if err != nil {
 			return err
@@ -372,7 +377,7 @@ func (c *GenericClient) assignNeutronFloatingIP(d *Driver, floatingIP *FloatingI
 	}
 	if floatingIP.Id == "" {
 		f, err := floatingips.Create(c.Network, floatingips.CreateOpts{
-			FloatingNetworkID: d.FloatingIPPoolId,
+			FloatingNetworkID: d.FloatingIpPoolId,
 			PortID:            portID,
 		}).Extract()
 		if err != nil {
@@ -409,7 +414,7 @@ func (c *GenericClient) getNovaNetworkFloatingIPs(d *Driver) ([]FloatingIP, erro
 		ipListing, err := compute_ips.ExtractFloatingIPs(page)
 
 		for _, ip := range ipListing {
-			if ip.InstanceID == "" && ip.Pool == d.FloatingIPPool {
+			if ip.InstanceID == "" && ip.Pool == d.FloatingIpPool {
 				ips = append(ips, FloatingIP{
 					Id:   ip.ID,
 					Ip:   ip.IP,
@@ -424,11 +429,11 @@ func (c *GenericClient) getNovaNetworkFloatingIPs(d *Driver) ([]FloatingIP, erro
 
 func (c *GenericClient) getNeutronNetworkFloatingIPs(d *Driver) ([]FloatingIP, error) {
 	log.Debug("Listing floating IPs", map[string]string{
-		"FloatingNetworkId": d.FloatingIPPoolId,
+		"FloatingNetworkId": d.FloatingIpPoolId,
 		"TenantID":          d.TenantId,
 	})
 	pager := floatingips.List(c.Network, floatingips.ListOpts{
-		FloatingNetworkID: d.FloatingIPPoolId,
+		FloatingNetworkID: d.FloatingIpPoolId,
 		TenantID:          d.TenantId,
 	})
 
@@ -540,6 +545,7 @@ func (c *GenericClient) Authenticate(d *Driver) error {
 	log.Debug("Authenticating...", map[string]interface{}{
 		"AuthUrl":    d.AuthUrl,
 		"Insecure":   d.Insecure,
+		"CaCert":     d.CaCert,
 		"DomainID":   d.DomainID,
 		"DomainName": d.DomainName,
 		"Username":   d.Username,
@@ -563,21 +569,45 @@ func (c *GenericClient) Authenticate(d *Driver) error {
 		return err
 	}
 
-	provider.UserAgent.Prepend(fmt.Sprintf("docker-machine/v%d", version.APIVersion))
+	c.Provider = provider
 
-	if d.Insecure {
-		// Configure custom TLS settings.
-		config := &tls.Config{InsecureSkipVerify: true}
-		transport := &http.Transport{TLSClientConfig: config}
-		provider.HTTPClient.Transport = transport
-	}
+	c.Provider.UserAgent.Prepend(fmt.Sprintf("docker-machine/v%d", version.APIVersion))
 
-	err = openstack.Authenticate(provider, opts)
+	err = c.SetTLSConfig(d)
 	if err != nil {
 		return err
 	}
 
-	c.Provider = provider
+	err = openstack.Authenticate(c.Provider, opts)
+	if err != nil {
+		return err
+	}
 
+	return nil
+}
+
+func (c *GenericClient) SetTLSConfig(d *Driver) error {
+
+	config := &tls.Config{}
+	config.InsecureSkipVerify = d.Insecure
+
+	if d.CaCert != "" {
+		// Use custom CA certificate(s) for root of trust
+		certpool := x509.NewCertPool()
+		pem, err := ioutil.ReadFile(d.CaCert)
+		if err != nil {
+			log.Error("Unable to read specified CA certificate(s)")
+			return err
+		}
+
+		ok := certpool.AppendCertsFromPEM(pem)
+		if !ok {
+			return fmt.Errorf("Ill-formed CA certificate(s) PEM file")
+		}
+		config.RootCAs = certpool
+	}
+
+	transport := &http.Transport{TLSClientConfig: config, Proxy: http.ProxyFromEnvironment}
+	c.Provider.HTTPClient.Transport = transport
 	return nil
 }
