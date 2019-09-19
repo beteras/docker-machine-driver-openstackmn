@@ -1,4 +1,4 @@
-# docker-machine-openstackmn
+# docker-machine-driver-openstackmn
 
 This is a multi-network version of OpenStack docker-machine driver.
 
@@ -10,14 +10,31 @@ from this PR reverted: https://github.com/docker/machine/pull/2974
 
 to build it
 
-`make`
+    make
 
 now you can use a comma separated list of net-id's or net-name's for openstack
 
-`--openstack-net-name dmz,nat,admin`
-
-`--openstack-id-name xxx,yyy,zzz`
+    --openstack-net-name dmz,nat,admin
+    or
+    --openstack-id-name xxx,yyy,zzz
 
 URL to use it in Rancher as node driver
 
-`https://github.com/beteras/docker-machine-openstackmn/raw/master/bin/docker-machine-driver-openstackmn`
+https://github.com/beteras/docker-machine-openstackmn/raw/master/bin/docker-machine-driver-openstackmn
+
+To test it
+
+    docker-machine create -d openstackmn \
+    --openstackmn-auth-url XXXX \
+    --openstackmn-tenant-id XXXX \
+    --openstackmn-tenant-name XXXX \
+    --openstackmn-username XXXX \
+    --openstackmn-password XXXX \
+    --openstackmn-domain-name Default \
+    --openstackmn-availability-zone "" \
+    --openstackmn-region BHS5 \
+    --openstackmn-flavor-name XXXX \
+    --openstackmn-image-id XXXX \
+    --openstackmn-net-name lan,nat \
+    --openstackmn-ssh-user rancher \
+    vm
