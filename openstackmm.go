@@ -311,15 +311,16 @@ func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) error {
 	d.KeyPairName = flags.String("openstackmn-keypair-name")
 	d.PrivateKeyFile = flags.String("openstackmn-private-key-file")
 	d.ConfigDrive = flags.Bool("openstackmn-config-drive")
-
-	if flags.String("openstackmn-user-data-file") != "" {
-		userData, err := ioutil.ReadFile(flags.String("openstackmn-user-data-file"))
-		if err == nil {
-			d.UserData = userData
-		} else {
-			return err
-		}
-	}
+	
+	d.UserData = []byte(flags.String("openstackmn-user-data-file"))
+	// if flags.String("openstackmn-user-data-file") != "" {
+	// 	userData, err := ioutil.ReadFile(flags.String("openstackmn-user-data-file"))
+	// 	if err == nil {
+	// 		d.UserData = userData
+	// 	} else {
+	// 		return err
+	// 	}
+	// }
 
 	d.SetSwarmConfigFromFlags(flags)
 
