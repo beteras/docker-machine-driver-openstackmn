@@ -7,6 +7,9 @@ import (
 	"net/http"
 	"strings"
 	"time"
+	"compress/gzip"
+	"encoding/base64"
+	"bytes"
 
 	"github.com/docker/machine/libmachine/drivers"
 	"github.com/docker/machine/libmachine/log"
@@ -312,7 +315,18 @@ func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) error {
 	d.PrivateKeyFile = flags.String("openstackmn-private-key-file")
 	d.ConfigDrive = flags.Bool("openstackmn-config-drive")
 	
-	d.UserData = []byte(flags.String("openstackmn-user-data-file"))
+	// RancherOS does not support gzip/base64 or multipart cloud-init/user-data
+	// So decompress/decode it here :)
+	// https://github.com/rancher/os/issues/2367
+
+	b64z := flags.String("openstackmn-user-data-file")
+	z, _ := base64.StdEncoding.DecodeString(b64z)
+	r, _ := gzip.NewReader(bytes.NewReader(z))
+	result, _ := ioutil.ReadAll(r)
+	//fmt.Println(string(result))
+
+	d.UserData = result
+
 	// if flags.String("openstackmn-user-data-file") != "" {
 	// 	userData, err := ioutil.ReadFile(flags.String("openstackmn-user-data-file"))
 	// 	if err == nil {
